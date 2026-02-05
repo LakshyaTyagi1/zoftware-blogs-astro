@@ -1,0 +1,9 @@
+# TinaCMS
+.tina/
+.tina/__generated__/
+.admin/
+
+# Environment variables
+.env
+.env.local
+.env.*.local

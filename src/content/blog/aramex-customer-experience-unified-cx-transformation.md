@@ -1,11 +1,10 @@
 ---
 title: "How Aramex Rebuilt Customer Experience Through Unified CX"
 date: "2026-02-05"
-categories: ["case-studies"]
+categories: "case-studies"
 tags: ["customer-experience", "cx", "transformation", "automation"]
 coverImage: "2026/02/aramex-unified-cx-image.webp"
 ---
-
 ### How Aramex Rebuilt Customer Experience Through Unified CX
 
 In logistics, customers naturally expect speed, and they often assume reliability will come as part of the deal. What increasingly sets brands apart, however, is not just whether a package arrives on time, but what the experience feels like when something goes wrong and the customer needs help.

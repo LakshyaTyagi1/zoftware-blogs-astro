@@ -1,17 +1,9 @@
 ---
 title: "Omnichannel Customer Experience: How Nayomi Improved CX Across Stores, Ecommerce, and WhatsApp"
 date: "2026-01-20"
-categories: 
-  - "customer-experience"
-  - "retail"
-  - "business-efficiency"
-  - "businessgrowth"
-  - "middleeastbusiness"
-  - "zoftware"
-  - "zoftware-solutions"
+categories: "customer-experience, retail, business-efficiency, businessgrowth, middleeastbusiness, zoftware, zoftware-solutions"
 coverImage: "2026/01/ChatGPT-Image-Jan-16-2026-05_20_18-PM.webp"
 ---
-
 ## Growth doesn’t fall apart because more people buy.  
 It falls apart when your systems stop sharing the same story.
 

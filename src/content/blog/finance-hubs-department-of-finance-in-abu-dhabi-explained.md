@@ -1,12 +1,9 @@
 ---
 title: "Finance Hubs &amp; Department of Finance in Abu Dhabi Explained"
 date: "2025-04-01"
-categories: 
-  - "finance"
-  - "finance-innovation"
+categories: "finance, finance-innovation"
 coverImage: "2025/04/financial-1.webp"
 ---
-
 ## **Introduction**
 
 Abu Dhabi has established itself as a financial powerhouse in the Middle East by hosting top-notch financial centers and businesses pushing economic development and innovation. The center of this ecosystem is the Department of Finance (DoF) Abu Dhabi, the government department in charge of managing emirate financial policies, budget planning, and fiscal management. Moreover, buildings like Finance House and financial hubs such as Abu Dhabi Global Market (ADGM) are crucial for a robust economic infrastructure.

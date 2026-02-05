@@ -1,9 +1,7 @@
 ---
 title: "Comparing Customer Relationship Tools: 7 Best CRM Software in Saudi Arabia"
 date: "2024-03-06"
-categories: 
-  - "blogs"
-  - "crm-software"
+categories: "blogs, crm-software"
 coverImage: "2024/03/Comparing-Customer-Relationship-Tools_-7-Best-CRM-Software-in-Saudi-Arabia.png"
 ---
 
@@ -226,7 +224,9 @@ $31.25/user/month billed annually
 ##### **Comparative Analysis of Top CRM software in Saudi Arabia**
 
 | **CRM Tool** | **Price** | **Contract term** | **Trial** | **Use Case** |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | 
+---
+ |
 | **CentraHub CRM**    | Customized pricing plans  | Annual & monthly  | Yes  | SME/SMB |
 | **HelloLeads.ai**  | Pricing starts from $3.60 | Annual & monthly  | Yes  | Best for small businesses  |
 | **Monday.com**    | Pricing starts from $10 | Annual & monthly  | Yes  | SME/SMB  |

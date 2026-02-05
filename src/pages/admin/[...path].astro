@@ -1,0 +1,42 @@
+---
+import { client } from '../tina/__generated__/client';
+import { useTina } from '@tinacms/tinacms';
+import { TinaCMS } from '../components/TinaCMS';
+
+const query = (gql) => gql`
+  query {
+    relativePath
+    ${client.relativePathToString(gql`blog/${gql.params.path}`)}
+  {
+    document(relativePath: $relativePath) {
+      id
+      sys {
+        filename
+      }
+      title
+      date
+      description
+      pubDate
+      updatedDate
+      categories
+      tags
+      coverImage
+      draft
+      body
+      _sys {
+        filename
+      }
+    }
+  }
+}
+`;
+
+export default function TinaAdmin() {
+  const { data, isLoading } = useTina({ query, variables: { path: '' } });
+  
+  if (isLoading) {
+    return <div>Loading TinaCMS...</div>;
+  }
+  
+  return <TinaCMS />;
+}

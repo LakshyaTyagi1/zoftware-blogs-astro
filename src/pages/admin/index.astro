@@ -1,0 +1,18 @@
+---
+---
+
+<slot />
+
+<div id="tina-cms"></div>
+
+<script>
+  // Wait for page to load then inject TinaCMS
+  document.addEventListener('DOMContentLoaded', () => {
+    const tinaCMS = document.getElementById('tina-cms');
+    if (tinaCMS) {
+      tinaCMS.innerHTML = `
+        <script type="module" src="/admin/@vite/client"><\/script>
+      `;
+    }
+  });
+</script>
