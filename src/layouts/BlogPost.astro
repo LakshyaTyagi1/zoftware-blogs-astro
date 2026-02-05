@@ -1,0 +1,280 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { getGCPImageUrl } from '../utils/gcpImages';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, coverImage, categories, tags } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+
+	<body class="bg-white">
+		<Header />
+		
+		<main class="max-w-4xl mx-auto px-6 py-12">
+			<article>
+				<!-- Header -->
+				<header class="mb-8">
+					<!-- Category -->
+					{categories && categories[0] && (
+						<p class="text-xs font-medium text-slate-secondary-v2 uppercase tracking-[0.6px] mb-3">
+							{categories[0]}
+						</p>
+					)}
+					
+					<!-- Title -->
+					<h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold text-dark-blue-v2 mb-4 leading-120">
+						{title}
+					</h1>
+
+					<!-- Meta info -->
+					<div class="flex flex-wrap items-center gap-4 text-sm text-gray-muted-v2">
+						<div class="flex items-center gap-2">
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+							</svg>
+							<FormattedDate date={pubDate} />
+						</div>
+						<span>•</span>
+						<span>8 min read</span>
+						{updatedDate && (
+							<>
+								<span>•</span>
+								<span>Updated: <FormattedDate date={updatedDate} /></span>
+							</>
+						)}
+					</div>
+				</header>
+
+				<!-- Featured image -->
+				{coverImage && pubDate && (
+					<div class="mb-8 rounded-[12px] overflow-hidden">
+						<img
+							width={1200}
+							height={630}
+							src={getGCPImageUrl(coverImage, pubDate)}
+							alt={title}
+							onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-64 flex items-center justify-center bg-soft-gray-v2\'><svg class=\'w-16 h-16 text-gray-muted-v2\' fill=\'none\' stroke=\'currentColor\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z\' /></svg></div>'"
+							class="w-full h-auto object-cover"
+						/>
+					</div>
+				)}
+
+				<!-- Content -->
+				<div class="prose prose-lg max-w-none">
+					<slot />
+				</div>
+
+				<!-- Footer -->
+				<footer class="mt-12 pt-8 border-t border-gray-200-custom-v2">
+					<!-- Tags -->
+					{tags && tags.length > 0 && (
+						<div class="mb-8">
+							<p class="text-xs font-medium text-slate-secondary-v2 uppercase mb-3">Tags</p>
+							<div class="flex flex-wrap gap-2">
+								{tags.map((tag: string) => (
+									<a 
+										href={`/tag/${tag}`} 
+										class="rounded-full bg-soft-gray-v2 text-charcoal-black-v2 text-xs font-medium px-4 py-2 hover:bg-gray-200-custom-v2 transition"
+									>
+										#{tag}
+									</a>
+								))}
+							</div>
+						</div>
+					)}
+
+					<!-- Share Section -->
+					<div class="bg-soft-gray-v2 rounded-[8px] p-6">
+						<h3 class="text-lg font-semibold text-charcoal-black-v2 mb-4">Share this article</h3>
+						<div class="flex gap-3">
+							<button class="px-4 py-2 rounded-[6px] bg-white border border-gray-200-custom-v2 text-charcoal-black-v2 hover:bg-gray-200-custom-v2 transition text-sm font-medium">
+								Twitter
+							</button>
+							<button class="px-4 py-2 rounded-[6px] bg-white border border-gray-200-custom-v2 text-charcoal-black-v2 hover:bg-gray-200-custom-v2 transition text-sm font-medium">
+								LinkedIn
+							</button>
+							<button class="px-4 py-2 rounded-[6px] bg-white border border-gray-200-custom-v2 text-charcoal-black-v2 hover:bg-gray-200-custom-v2 transition text-sm font-medium">
+								Facebook
+							</button>
+							<button class="px-4 py-2 rounded-[6px] bg-white border border-gray-200-custom-v2 text-charcoal-black-v2 hover:bg-gray-200-custom-v2 transition text-sm font-medium">
+								Copy Link
+							</button>
+						</div>
+					</div>
+				</footer>
+			</article>
+
+			<!-- Newsletter Signup -->
+			<section class="mt-12">
+				<div class="rounded-[12px] bg-gradient-to-br from-brand-blue-v2 to-bright-blue-v2 p-8 text-white">
+					<h3 class="text-2xl font-semibold mb-2">Subscribe to Our Newsletter</h3>
+					<p class="text-blue-100 mb-6 leading-170">
+						Get the latest software reviews and insights delivered to your inbox.
+					</p>
+
+					<form class="space-y-3">
+						<input 
+							type="email"
+							placeholder="Your email address"
+							class="w-full px-4 py-3 rounded-[6px] bg-white bg-opacity-90 text-charcoal-black-v2 placeholder-gray-muted-v2 focus:outline-none focus:ring-2 focus:ring-white"
+						/>
+						<button 
+							type="submit"
+							class="w-full py-3 rounded-[6px] bg-white text-brand-blue-v2 font-semibold hover:bg-opacity-90 transition"
+						>
+							Subscribe
+						</button>
+					</form>
+
+					<p class="text-xs text-blue-100 mt-4">
+						We respect your privacy. Unsubscribe at any time.
+					</p>
+				</div>
+			</section>
+		</main>
+
+		<Footer />
+
+		<style is:global>
+			/* Article Content Styling */
+			.prose {
+				color: #575757; /* neutral-gray-v2 */
+			}
+
+			.prose p {
+				margin-bottom: 1.5rem;
+				line-height: 170%;
+				font-size: 1rem;
+			}
+
+			.prose h2 {
+				font-size: 2rem;
+				font-weight: 600;
+				color: #051D53; /* dark-blue-v2 */
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+				line-height: 120%;
+			}
+
+			.prose h3 {
+				font-size: 1.5rem;
+				font-weight: 600;
+				color: #101828; /* charcoal-black-v2 */
+				margin-top: 1.5rem;
+				margin-bottom: 0.75rem;
+				line-height: 120%;
+			}
+
+			.prose h4 {
+				font-size: 1.25rem;
+				font-weight: 600;
+				color: #101828; /* charcoal-black-v2 */
+				margin-top: 1.5rem;
+				margin-bottom: 0.75rem;
+			}
+
+			.prose h5, .prose h6 {
+				font-size: 1rem;
+				font-weight: 600;
+				color: #101828; /* charcoal-black-v2 */
+				margin-top: 1rem;
+				margin-bottom: 0.5rem;
+			}
+
+			.prose ul, .prose ol {
+				margin-bottom: 1.5rem;
+				padding-left: 1.5rem;
+			}
+
+			.prose li {
+				margin-bottom: 0.5rem;
+				line-height: 170%;
+			}
+
+			.prose a {
+				color: #1447E6; /* brand-blue-v2 */
+				text-decoration: underline;
+			}
+
+			.prose a:hover {
+				color: #007BEF; /* bright-blue-v2 */
+			}
+
+			.prose strong, .prose b {
+				font-weight: 600;
+				color: #101828; /* charcoal-black-v2 */
+			}
+
+			.prose blockquote {
+				border-left: 4px solid #1447E6; /* brand-blue-v2 */
+				background-color: #F6F6F6; /* soft-gray-v2 */
+				padding: 1.5rem;
+				margin: 1.5rem 0;
+				border-radius: 6px;
+				font-style: italic;
+				color: #101828; /* charcoal-black-v2 */
+			}
+
+			.prose code {
+				background-color: #F6F6F6; /* soft-gray-v2 */
+				padding: 2px 6px;
+				border-radius: 4px;
+				font-size: 0.875rem;
+				color: #101828; /* charcoal-black-v2 */
+			}
+
+			.prose pre {
+				background-color: #101828; /* charcoal-black-v2 */
+				padding: 1.5rem;
+				border-radius: 8px;
+				overflow-x: auto;
+				margin: 1.5rem 0;
+			}
+
+			.prose pre code {
+				background: none;
+				padding: 0;
+				color: white;
+			}
+
+			.prose img {
+				border-radius: 8px;
+				margin: 1.5rem 0;
+			}
+
+			.prose table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 1.5rem 0;
+			}
+
+			.prose th,
+			.prose td {
+				padding: 0.75rem;
+				border: 1px solid #E5E7EB; /* gray-200-custom-v2 */
+				text-align: left;
+			}
+
+			.prose th {
+				background-color: #F6F6F6; /* soft-gray-v2 */
+				font-weight: 600;
+				color: #101828; /* charcoal-black-v2 */
+			}
+
+			.prose hr {
+				border: none;
+				border-top: 1px solid #E5E7EB; /* gray-200-custom-v2 */
+				margin: 2rem 0;
+			}
+		</style>
+	</body>
+</html>

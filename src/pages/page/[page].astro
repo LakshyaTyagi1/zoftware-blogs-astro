@@ -1,0 +1,130 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { getGCPImageUrl } from '../../utils/gcpImages';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const POSTS_PER_PAGE = 12;
+const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
+const currentPage = Math.max(1, parseInt(Astro.params.page || '1', 10));
+const safePage = Math.min(currentPage, totalPages);
+const start = (safePage - 1) * POSTS_PER_PAGE;
+const paginatedPosts = posts.slice(start, start + POSTS_PER_PAGE);
+
+// Helper to build pagination window (centered around current page)
+function pageWindow(cur, total, size = 5) {
+  const half = Math.floor(size / 2);
+  let start = Math.max(1, cur - half);
+  let end = Math.min(total, start + size - 1);
+  if (end - start + 1 < size) start = Math.max(1, end - size + 1);
+  const arr = [];
+  for (let i = start; i <= end; i++) arr.push(i);
+  return arr;
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`${SITE_TITLE} — Page ${safePage}`} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="bg-white">
+    <Header />
+
+    <main class="max-w-[1200px] mx-auto px-6 py-12">
+      <h2 class="text-2xl font-semibold text-dark-blue-v2 mb-6">Page {safePage}</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {paginatedPosts.map((post) => (
+          <article class="rounded-[8px] bg-white border border-gray-200-custom-v2 shadow-sm overflow-hidden hover:shadow-custom-shadow transition-shadow duration-300 flex flex-col">
+            <a href={`/${post.id}/`} class="block relative h-48 md:h-56 overflow-hidden bg-soft-gray-v2">
+              {post.data.coverImage && post.data.pubDate ? (
+                <img
+                  width={400}
+                  height={224}
+                  src={getGCPImageUrl(post.data.coverImage, post.data.pubDate)}
+                  alt={post.data.title}
+                  loading="lazy"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+              ) : null}
+              <div class={`w-full h-full items-center justify-center ${post.data.coverImage && post.data.pubDate ? 'hidden' : 'flex'}`} data-fallback>
+                <svg class="w-16 h-16 text-gray-muted-v2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+
+              {post.data.categories && post.data.categories[0] && (
+                <span class="absolute top-4 left-4 rounded-full bg-brand-blue-v2 text-white text-xs font-medium px-3 py-1">
+                  {post.data.categories[0]}
+                </span>
+              )}
+            </a>
+
+            <div class="p-5 flex flex-col flex-1">
+              <div class="flex items-center gap-3 mb-3 text-xs">
+                <span class="text-gray-muted-v2">
+                  <FormattedDate date={post.data.pubDate} />
+                </span>
+                <span class="text-gray-muted-v2">•</span>
+                <span class="text-gray-muted-v2">5 min read</span>
+              </div>
+
+              <h3 class="text-lg font-semibold text-dark-blue-v2 mb-3 line-clamp-2 hover:text-bright-blue-v2 transition-colors">
+                <a href={`/${post.id}/`}>{post.data.title}</a>
+              </h3>
+
+              <p class="text-sm text-neutral-gray-v2 mb-4 line-clamp-2 leading-170 flex-1">{post.data.description || 'Discover insights and detailed analysis...'}</p>
+
+              {post.data.tags && post.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {post.data.tags.slice(0, 3).map((tag: string) => (
+                    <span class="rounded-full bg-soft-gray-v2 text-charcoal-black-v2 text-xs font-medium px-3 py-1">#{tag}</span>
+                  ))}
+                </div>
+              )}
+
+              <a href={`/${post.id}/`} class="inline-flex items-center text-brand-blue-v2 font-medium text-sm hover:underline mt-auto">
+                Read More
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {totalPages > 1 && (
+        <nav class="flex items-center justify-center gap-2" aria-label="Pagination">
+          <a href={safePage <= 2 ? '/' : `/page/${safePage - 1}/`} class="px-4 py-2 rounded-[6px] border border-gray-200-custom-v2 text-charcoal-black-v2 hover:bg-soft-gray-v2 transition">
+            Previous
+          </a>
+
+          {pageWindow(safePage, totalPages, 5).map((page) => (
+            <a href={page === 1 ? '/' : `/page/${page}/`} class={`px-4 py-2 rounded-[6px] transition ${page === safePage ? 'bg-brand-blue-v2 text-white' : 'border border-gray-200-custom-v2 text-charcoal-black-v2 hover:bg-soft-gray-v2'}`} aria-current={page === safePage ? 'page' : undefined}>
+              {page}
+            </a>
+          ))}
+
+          {safePage < totalPages && (
+            <a href={`/page/${safePage + 1}/`} class="px-4 py-2 rounded-[6px] border border-gray-200-custom-v2 text-charcoal-black-v2 hover:bg-soft-gray-v2 transition">
+              Next
+            </a>
+          )}
+        </nav>
+      )}
+
+    </main>
+
+    <Footer />
+  </body>
+</html>

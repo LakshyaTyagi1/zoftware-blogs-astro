@@ -1,0 +1,197 @@
+---
+// BlogSearch.astro - Client-side search component using Fuse.js
+import { getCollection } from 'astro:content';
+
+// Get all posts and prepare search data
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+// Serialize posts for client-side search (only essential fields)
+const searchData = posts.map(post => ({
+	id: post.id,
+	title: post.data.title,
+	description: post.data.description || '',
+	categories: post.data.categories || [],
+	tags: post.data.tags || [],
+}));
+---
+
+<div id="blog-search-container">
+	<!-- Search/Filter Bar -->
+	<div class="bg-soft-gray-v2 rounded-[8px] p-4 md:p-6 max-w-3xl mx-auto">
+		<div class="flex flex-col md:flex-row gap-3">
+			<input 
+				id="search-input"
+				type="text"
+				placeholder="Search articles by title, description, or tags..."
+				class="flex-1 px-4 py-3 rounded-[6px] border border-gray-200-custom-v2 bg-white text-charcoal-black-v2 placeholder-gray-muted-v2 focus:outline-none focus:ring-2 focus:ring-brand-blue-v2"
+			/>
+			<select 
+				id="category-filter"
+				class="px-4 py-3 rounded-[6px] border border-gray-200-custom-v2 bg-white text-charcoal-black-v2 focus:outline-none focus:ring-2 focus:ring-brand-blue-v2 md:w-48"
+			>
+				<option value="">All Categories</option>
+				<!-- Categories will be populated by JS -->
+			</select>
+		</div>
+		
+		<!-- Results count -->
+		<div id="search-results-count" class="mt-3 text-sm text-neutral-gray-v2 hidden">
+			Found <span id="results-number" class="font-semibold text-brand-blue-v2">0</span> results
+		</div>
+		
+		<!-- Clear search button -->
+		<button 
+			id="clear-search" 
+			class="mt-3 text-sm text-brand-blue-v2 hover:underline hidden"
+		>
+			Clear search
+		</button>
+	</div>
+</div>
+
+<script define:vars={{ searchData }}>
+	import Fuse from 'fuse.js';
+
+	// Fuse.js configuration for fuzzy search
+	const fuseOptions = {
+		keys: [
+			{ name: 'title', weight: 0.5 },
+			{ name: 'description', weight: 0.3 },
+			{ name: 'tags', weight: 0.15 },
+			{ name: 'categories', weight: 0.05 },
+		],
+		threshold: 0.4, // 0.0 = exact match, 1.0 = match anything
+		ignoreLocation: true,
+		minMatchCharLength: 2,
+	};
+
+	const fuse = new Fuse(searchData, fuseOptions);
+	
+	// Get all unique categories
+	const allCategories = [...new Set(searchData.flatMap(post => post.categories))].filter(Boolean).sort();
+	
+	// Populate category dropdown
+	const categorySelect = document.getElementById('category-filter');
+	allCategories.forEach(cat => {
+		const option = document.createElement('option');
+		option.value = cat;
+		option.textContent = cat;
+		categorySelect.appendChild(option);
+	});
+
+	// Get DOM elements
+	const searchInput = document.getElementById('search-input');
+	const clearButton = document.getElementById('clear-search');
+	const resultsCount = document.getElementById('search-results-count');
+	const resultsNumber = document.getElementById('results-number');
+	
+	// Get all blog post cards
+	const blogGrid = document.querySelector('.grid');
+	const allPostCards = Array.from(blogGrid?.querySelectorAll('article') || []);
+	
+	// Store original post data with DOM elements
+	const postElements = allPostCards.map((card, index) => {
+		const link = card.querySelector('a[href^="/"]');
+		const href = link?.getAttribute('href') || '';
+		const postId = href.replace('/', '').replace('/', '');
+		return {
+			element: card,
+			id: postId,
+			data: searchData.find(p => p.id === postId) || searchData[index],
+		};
+	});
+
+	let currentSearchTerm = '';
+	let currentCategory = '';
+
+	function performSearch() {
+		const searchTerm = searchInput.value.trim();
+		const category = categorySelect.value;
+		
+		currentSearchTerm = searchTerm;
+		currentCategory = category;
+		
+		// Show/hide clear button and results count
+		const isFiltering = searchTerm || category;
+		clearButton.classList.toggle('hidden', !isFiltering);
+		resultsCount.classList.toggle('hidden', !isFiltering);
+		
+		if (!isFiltering) {
+			// No search/filter - show all posts
+			postElements.forEach(({ element }) => {
+				element.classList.remove('hidden');
+			});
+			return;
+		}
+		
+		// Get search results
+		let results = searchTerm ? fuse.search(searchTerm).map(r => r.item.id) : searchData.map(p => p.id);
+		
+		// Apply category filter
+		if (category) {
+			results = results.filter(postId => {
+				const post = searchData.find(p => p.id === postId);
+				return post?.categories?.includes(category);
+			});
+		}
+		
+		// Show/hide posts based on results
+		let visibleCount = 0;
+		postElements.forEach(({ element, id }) => {
+			if (results.includes(id)) {
+				element.classList.remove('hidden');
+				visibleCount++;
+			} else {
+				element.classList.add('hidden');
+			}
+		});
+		
+		// Update results count
+		resultsNumber.textContent = visibleCount;
+		
+		// Show "no results" message if needed
+		if (visibleCount === 0 && blogGrid) {
+			const noResults = document.getElementById('no-results-message');
+			if (!noResults) {
+				const msg = document.createElement('div');
+				msg.id = 'no-results-message';
+				msg.className = 'col-span-full text-center py-12';
+				msg.innerHTML = `
+					<svg class="w-16 h-16 text-gray-muted-v2 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+					<p class="text-lg font-semibold text-dark-blue-v2 mb-2">No results found</p>
+					<p class="text-sm text-neutral-gray-v2">Try adjusting your search or filter to find what you're looking for.</p>
+				`;
+				blogGrid.appendChild(msg);
+			}
+		} else {
+			// Remove no results message if it exists
+			const noResults = document.getElementById('no-results-message');
+			if (noResults) {
+				noResults.remove();
+			}
+		}
+	}
+
+	function clearSearch() {
+		searchInput.value = '';
+		categorySelect.value = '';
+		performSearch();
+		searchInput.focus();
+	}
+
+	// Event listeners
+	searchInput.addEventListener('input', performSearch);
+	categorySelect.addEventListener('change', performSearch);
+	clearButton.addEventListener('click', clearSearch);
+	
+	// Debounce search for better performance
+	let debounceTimer;
+	searchInput.addEventListener('input', () => {
+		clearTimeout(debounceTimer);
+		debounceTimer = setTimeout(performSearch, 200);
+	});
+</script>

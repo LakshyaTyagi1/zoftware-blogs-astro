@@ -1,0 +1,276 @@
+.arrow_down {
+  display: inline-block;
+  height: 8px;
+  width: 15px;
+  background: url("https://zoftware-logo.s3.ap-south-1.amazonaws.com/arrow-down.svg")
+    no-repeat;
+  margin-inline-start: 0.5rem;
+  transition: transform 0.5s ease-in-out;
+}
+
+.header_parent {
+  position: fixed;
+  top: 40px;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin-inline: auto;
+  /* margin-bottom: 1rem; */
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  height: 55px;
+  font-size: 14px;
+  padding: 0.25rem;
+  border-radius: 80px;
+  align-items: center;
+  border: 1px solid #e6e6e6;
+  backdrop-filter: blur(65.5999984741211px);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 7px 13px 0px #2300880d;
+  overflow: visible;
+}
+
+.mini_header {
+  display: none;
+}
+
+.loginBtn {
+  text-wrap: nowrap;
+  padding: 0.75rem 2.5rem;
+  background: #051d53;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.loginBtn:hover {
+  text-decoration: underline;
+}
+
+.profile_arrows {
+  height: 18px;
+  width: 18px;
+  background-color: #654cff;
+  color: #ffffff;
+  border-radius: 0.25rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  bottom: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.profile_arrows_active {
+  background-color: #a49fc3;
+  rotate: 90deg;
+}
+
+.acc_ul {
+  width: 200px;
+  background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 53px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.acc_li a,
+.acc_li button {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.acc_li a:hover,
+.acc_li button:hover {
+  background-color: rgba(44, 78, 155, 0.05);
+  color: #2c4e9b;
+}
+
+.dropdownParent {
+  position: relative;
+}
+
+.dropdownParent > p {
+  cursor: pointer;
+  display: flex;
+  white-space: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropdownParent:hover .downArrowWhite {
+  transform: rotate(180deg);
+}
+
+.dropdownParent:hover > div {
+  display: block;
+}
+
+.vertical_line {
+  width: 1px;
+  height: 32px;
+  /* margin-right: 31px;
+  margin-left: 44px; */
+  background-color: #e6e6e6;
+}
+
+.dropdown {
+  min-width: 100%;
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 2.25rem;
+  inset-inline-start: 0;
+  padding-block: 0.5rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(63, 63, 63, 0.25);
+  box-shadow: 0 1px 5px #0003;
+}
+
+.dropdown > li > a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #3f3f3f;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dropdown > li > a:hover {
+  background-color: #ffe7ed;
+  color: #f44767;
+}
+
+.dropdownParent:hover .dropdown {
+  display: block;
+}
+
+.sidenav_container {
+  display: none;
+}
+
+.compare_number {
+  position: absolute;
+  top: 0.25rem;
+  inset-inline-end: -0.5rem;
+  width: 1rem;
+  height: 1rem;
+  background-color: #38c016;
+  color: #ffffff;
+  border-radius: 1rem;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+}
+
+@media only screen and (max-width: 1279px) {
+  .header_parent {
+    top: 40px;
+    left: 0;
+    right: 0;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .header {
+    padding: 0.25rem;
+    height: 55px;
+  }
+
+  .large_laptop {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1023px) {
+  .header_parent {
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    width: 100%;
+    display: none;
+  }
+
+  .mini_header {
+    gap: 0.5rem;
+    width: 100%;
+    display: flex;
+    padding: 0.75rem 1rem;
+    align-items: center;
+    justify-content: flex-end;
+    backdrop-filter: blur(33px);
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0px 7px 13px 0px rgba(35, 0, 136, 0.1);
+  }
+
+  .sidenav_container {
+    position: fixed;
+    background-color: rgba(18, 18, 18, 0.4);
+    margin: 0;
+    padding: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 70;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .signupBtn {
+    border: 2px solid #2c4e9b;
+  }
+
+  .dropdownParent {
+    padding-inline: 0.5rem;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .header_parent {
+    z-index: 10001;
+  }
+}
+
+@media only screen and (max-width: 499px) {
+  .header_parent {
+    margin-bottom: 1rem;
+  }
+}
+
+@keyframes scaleAndFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
