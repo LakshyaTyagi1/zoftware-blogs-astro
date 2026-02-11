@@ -113,7 +113,8 @@
 .copyright {
   color: #4A5565;
   font-size: 0.875rem;
-  line-height: normal;
+  line-height: 1;
+  margin: 0;
   font-family: var(--font-poppins, 'Poppins', sans-serif);
 }
 
@@ -169,7 +170,7 @@
   padding-bottom: 0.75rem;
   align-items: center;
   gap: 1rem;
-  line-height: none;
+  line-height: 1;
   font-size: 0.875rem;
   color: #4A5565;
   margin-bottom: 0.75rem;
@@ -179,6 +180,10 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.bottomBarLeft img {
+  display: block;
 }
 
 .langButtons {

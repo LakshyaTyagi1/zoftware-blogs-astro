@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 
 // API base URL
-const API_URL = "https://uat.zoftwarehub.com/api/v1";
+const API_URL = "https://api.zoftwarehub.com/api/v1";
 
 // Types
 interface Category {
@@ -80,5 +80,3 @@ export function useTopbarContext() {
   }
   return context;
 }
-
-

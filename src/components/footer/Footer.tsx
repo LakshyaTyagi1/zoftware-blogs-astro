@@ -83,6 +83,7 @@ function Footer() {
               height={24}
               alt="Zoftware Logo"
               src="https://zoftware-logo.s3.ap-south-1.amazonaws.com/zoftware-mini-logo.svg"
+              style={{ borderRadius: 0 }}
             />
             <p className={styles.copyright}>{t.rights}</p>
           </div>

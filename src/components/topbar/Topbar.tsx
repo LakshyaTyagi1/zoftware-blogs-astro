@@ -51,7 +51,7 @@ function TopbarContent() {
               width={118}
               alt="zoftware_logo"
               src="https://zoftware-logo.s3.ap-south-1.amazonaws.com/logo.svg"
-              style={{ width: "118px", height: "auto" }}
+              style={{ width: "118px", height: "auto", borderRadius: 0 }}
             />
           </a>
 
@@ -186,7 +186,7 @@ function TopbarContent() {
               alt="zoftware_logo"
               height={25}
               width={130}
-              style={{ width: "100px", height: "auto" }}
+              style={{ width: "100px", height: "auto", borderRadius: 0 }}
             />
           </a>
 
@@ -245,7 +245,7 @@ function TopbarContent() {
                 alt="zoftware_logo"
                 height={25}
                 width={130}
-                style={{ width: "120px", height: "auto" }}
+                style={{ width: "120px", height: "auto", borderRadius: 0 }}
               />
               <button
                 onClick={closeSidenav}

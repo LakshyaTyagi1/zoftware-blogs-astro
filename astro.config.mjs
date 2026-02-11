@@ -11,5 +11,10 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	site: 'https://example.com',
 	adapter: vercel(),
-	integrations: [mdx(), sitemap(), tailwind({ applyBaseStyles: false }), react()],
+	integrations: [
+		mdx(),
+		sitemap(),
+		tailwind({ applyBaseStyles: false }),
+		react(),
+	],
 });

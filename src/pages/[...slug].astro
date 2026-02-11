@@ -1,20 +1,38 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { toHTML } from '@portabletext/to-html';
 import BlogPost from '../layouts/BlogPost.astro';
+import { getAllPostSlugs, getPostBySlug, plainTextFromBlocks } from '../lib/mongodb';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
+	const slugs = await getAllPostSlugs();
+	return slugs.map((slug) => ({
+		params: { slug },
+		props: { slug },
 	}));
 }
-type Props = CollectionEntry<'blog'>;
 
-const post = Astro.props;
-const { Content } = await render(post);
+const { slug } = Astro.params;
+if (!slug) {
+	throw new Error('Missing post slug.');
+}
+
+const post = await getPostBySlug(slug);
+if (!post) {
+	throw new Error(`Post not found for slug: ${slug}`);
+}
+
+const description = post.description || plainTextFromBlocks(post.body, 200);
+const html = toHTML(post.body ?? []);
 ---
 
-<BlogPost {...post.data}>
-	<Content />
+<BlogPost
+	title={post.title}
+	description={description}
+	publishedAt={post.publishedAt}
+	updatedAt={post.updatedAt}
+	coverImage={post.coverImage}
+	categories={post.categories}
+	tags={post.tags}
+>
+	<Fragment set:html={html} />
 </BlogPost>

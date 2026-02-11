@@ -6,6 +6,30 @@ npm create astro@latest -- --template blog
 
 > 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
+## Sanity Setup
+
+Set the following environment variables in `.env` (or your deployment environment):
+
+- `PUBLIC_SANITY_PROJECT_ID`
+- `PUBLIC_SANITY_DATASET` (default: `production`)
+- `PUBLIC_SANITY_API_VERSION` (default: `2026-02-05`)
+- `SANITY_STUDIO_PROJECT_ID` (same as PUBLIC_SANITY_PROJECT_ID)
+- `SANITY_STUDIO_DATASET` (same as PUBLIC_SANITY_DATASET)
+- `SANITY_STUDIO_API_VERSION` (same as PUBLIC_SANITY_API_VERSION)
+- `SANITY_WRITE_TOKEN` (only required to run `npm run sanity:import`)
+
+Run Sanity Studio locally with:
+
+```sh
+pnpm run sanity dev
+```
+
+To import the existing Markdown posts into Sanity:
+
+```sh
+npm run sanity:import
+```
+
 Features:
 
 - ✅ Minimal styling (make it your own!)
