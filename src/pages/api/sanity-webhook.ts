@@ -12,6 +12,8 @@
  *   Secret:     <SANITY_WEBHOOK_SECRET>
  */
 
+export const prerender = false;
+
 import type { APIRoute } from "astro";
 import crypto from "node:crypto";
 import { createClient } from "@sanity/client";
@@ -86,11 +88,44 @@ function verifySignature(body: string, signature: string | null): boolean {
     return true;
   }
   if (!signature) return false;
+
+  // Sanity/Stripe format: "t=<timestamp>,v1=<signature>"
+  // Signed content is: "{timestamp}.{body}"
+  const parts = signature.split(",");
+  let timestamp = "";
+  let v1Sig = "";
+
+  for (const part of parts) {
+    if (part.startsWith("t=")) {
+      timestamp = part.substring(2);
+    } else if (part.startsWith("v1=")) {
+      v1Sig = part.substring(3);
+    }
+  }
+
+  if (!timestamp || !v1Sig) {
+    console.error("[webhook] Missing timestamp or v1 in signature");
+    return false;
+  }
+
+  // Create signed content: "timestamp.body"
+  const signedContent = `${timestamp}.${body}`;
+
+  // Compute HMAC-SHA256
   const expected = crypto
     .createHmac("sha256", WEBHOOK_SECRET)
-    .update(body)
+    .update(signedContent)
     .digest("base64");
-  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+
+  // Sanity sends signature in URL-safe base64 format
+  // Convert URL-safe base64 to standard base64
+  const v1SigStandard = v1Sig.replace(/-/g, "+").replace(/_/g, "/");
+  // Add padding if needed
+  const paddingNeeded = (4 - (v1SigStandard.length % 4)) % 4;
+  const v1SigPadded = v1SigStandard + "=".repeat(paddingNeeded);
+
+  // Timing-safe comparison
+  return v1SigPadded === expected;
 }
 
 export const GET: APIRoute = async () => {
@@ -145,15 +180,15 @@ export const POST: APIRoute = async ({ request }) => {
     // ── DELETE ──
     if (operation === "delete") {
       if (_type === "post") {
-        await db.collection("posts").deleteOne({ _id });
+        await db.collection("posts").deleteOne({ _id } as any);
       } else if (_type === "category") {
-        await db.collection("categories").deleteOne({ _id });
+        await db.collection("categories").deleteOne({ _id } as any);
         // Remove from denormalized arrays in posts
         await db.collection("posts").updateMany({ "categories._id": _id }, {
           $pull: { categories: { _id } },
         } as any);
       } else if (_type === "tag") {
-        await db.collection("tags").deleteOne({ _id });
+        await db.collection("tags").deleteOne({ _id } as any);
         await db
           .collection("posts")
           .updateMany({ "tags._id": _id }, { $pull: { tags: { _id } } } as any);
@@ -175,20 +210,20 @@ export const POST: APIRoute = async ({ request }) => {
         // Dedup: skip if same revision already stored
         const existing = await db
           .collection("posts")
-          .findOne({ _id }, { projection: { _sanityRev: 1 } });
+          .findOne({ _id } as any, { projection: { _sanityRev: 1 } });
         if (existing && existing._sanityRev === post._rev) {
           return json({ ok: true, action: "skipped (same rev)", _type, _id });
         }
         await db
           .collection("posts")
           .replaceOne(
-            { _id },
+            { _id } as any,
             { ...post, _sanityRev: post._rev },
             { upsert: true },
           );
       } else {
         // Post might have become a draft or was unpublished → remove from cache
-        await db.collection("posts").deleteOne({ _id });
+        await db.collection("posts").deleteOne({ _id } as any);
       }
     } else if (_type === "category") {
       const cat = await sanity.fetch(
@@ -198,7 +233,7 @@ export const POST: APIRoute = async ({ request }) => {
       if (cat) {
         await db
           .collection("categories")
-          .replaceOne({ _id }, cat, { upsert: true });
+          .replaceOne({ _id } as any, cat, { upsert: true });
         // Update denormalized copies in posts
         await db.collection("posts").updateMany(
           { "categories._id": _id },
@@ -217,7 +252,9 @@ export const POST: APIRoute = async ({ request }) => {
         { id: _id },
       );
       if (tag) {
-        await db.collection("tags").replaceOne({ _id }, tag, { upsert: true });
+        await db
+          .collection("tags")
+          .replaceOne({ _id } as any, tag, { upsert: true });
         await db.collection("posts").updateMany(
           { "tags._id": _id },
           {

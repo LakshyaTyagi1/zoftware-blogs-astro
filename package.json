@@ -10,7 +10,8 @@
     "sanity": "sanity",
     "sanity:import": "node scripts/sanity-import.mjs",
     "sanity:remove-cta": "node scripts/sanity-remove-cta.mjs",
-    "sync:mongo": "node scripts/sync-sanity-to-mongo.mjs"
+    "sync:mongo": "node scripts/sync-sanity-to-mongo.mjs",
+    "deploy:studio": "node -r dotenv/config node_modules/.bin/sanity deploy"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",

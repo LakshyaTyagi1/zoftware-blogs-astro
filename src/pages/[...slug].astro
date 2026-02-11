@@ -1,15 +1,10 @@
 ---
+// Server-render blog posts so they always show fresh content from MongoDB
+export const prerender = false;
+
 import { toHTML } from '@portabletext/to-html';
 import BlogPost from '../layouts/BlogPost.astro';
-import { getAllPostSlugs, getPostBySlug, plainTextFromBlocks } from '../lib/mongodb';
-
-export async function getStaticPaths() {
-	const slugs = await getAllPostSlugs();
-	return slugs.map((slug) => ({
-		params: { slug },
-		props: { slug },
-	}));
-}
+import { getPostBySlug, plainTextFromBlocks } from '../lib/mongodb';
 
 const { slug } = Astro.params;
 if (!slug) {
