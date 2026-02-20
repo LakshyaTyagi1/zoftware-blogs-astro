@@ -27,7 +27,9 @@ const {
 
 const publishedDate = publishedAt ? new Date(publishedAt) : null;
 const updatedDate = updatedAt ? new Date(updatedAt) : null;
-const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, height: 630 }) : "";
+const coverImageUrl = coverImage
+    ? getSanityImageUrl(coverImage, { width: 1200, height: 630 })
+    : "";
 ---
 
 <html lang="en">
@@ -35,10 +37,12 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
         <BaseHead title={title} description={description} />
     </head>
 
-    <body>
+    <body class="flex flex-col min-h-screen">
         <Header />
 
-        <main class="max-w-[1200px] mx-auto px-6 pt-28 sm:pt-32 lg:pt-36 pb-16">
+        <main
+            class="max-w-[1200px] mx-auto px-6 pt-28 sm:pt-32 lg:pt-36 pb-16 flex-1"
+        >
             <article>
                 <!-- Header -->
                 <header class="mb-10">
@@ -52,17 +56,35 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
                     }
 
                     <!-- Title -->
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 mb-5 tracking-[-0.02em]">
+                    <h1
+                        class="text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 mb-5 tracking-[-0.02em]"
+                    >
                         {title}
                     </h1>
 
                     <!-- Meta info -->
-                    <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500">
+                    <div
+                        class="flex flex-wrap items-center gap-3 text-xs text-slate-500"
+                    >
                         <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                ></path>
                             </svg>
-                            {publishedDate && <FormattedDate date={publishedDate} />}
+                            {
+                                publishedDate && (
+                                    <FormattedDate date={publishedDate} />
+                                )
+                            }
                         </div>
                         <span class="text-slate-300">•</span>
                         <span>8 min read</span>
@@ -71,7 +93,8 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
                                 <>
                                     <span class="text-slate-300">•</span>
                                     <span>
-                                        Updated: <FormattedDate date={updatedDate} />
+                                        Updated:{" "}
+                                        <FormattedDate date={updatedDate} />
                                     </span>
                                 </>
                             )
@@ -95,42 +118,74 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
                     )
                 }
 
-                <div class="grid gap-10 lg:grid-cols-[minmax(260px,30%)_minmax(0,1fr)] lg:gap-12" data-toc-layout>
+                <div
+                    class="grid gap-10 lg:grid-cols-[minmax(260px,30%)_minmax(0,1fr)] lg:gap-12"
+                    data-toc-layout
+                >
                     <aside class="order-2 lg:order-1">
                         <div class="lg:sticky lg:top-28 space-y-6">
-                            <div class="rounded-2xl border border-slate-200 bg-white p-5">
-                                <p class="text-xs uppercase tracking-[0.25em] text-slate-500 mb-5">In this post</p>
-                                <nav class="space-y-4 text-sm text-slate-600" data-toc="desktop"></nav>
+                            <div
+                                class="rounded-2xl border border-slate-200 bg-white p-5"
+                            >
+                                <p
+                                    class="text-xs uppercase tracking-[0.25em] text-slate-500 mb-5"
+                                >
+                                    In this post
+                                </p>
+                                <nav
+                                    class="space-y-4 text-sm text-slate-600"
+                                    data-toc="desktop"
+                                >
+                                </nav>
                             </div>
-                            
+
                             <!-- Share Section -->
-                            <div class="rounded-2xl border border-slate-200 bg-white p-6">
-                                <h3 class="text-lg font-semibold text-slate-900 mb-4">
+                            <div
+                                class="rounded-2xl border border-slate-200 bg-white p-6"
+                            >
+                                <h3
+                                    class="text-lg font-semibold text-slate-900 mb-4"
+                                >
                                     Share this article
                                 </h3>
                                 <div class="flex flex-wrap gap-3">
-                                    <button class="px-4 py-2 rounded-full border border-slate-200 text-slate-700 hover:border-slate-300 transition text-xs font-medium">
+                                    <button
+                                        class="px-4 py-2 rounded-full border border-slate-200 text-slate-700 hover:border-slate-300 transition text-xs font-medium"
+                                    >
                                         Twitter
                                     </button>
-                                    <button class="px-4 py-2 rounded-full border border-slate-200 text-slate-700 hover:border-slate-300 transition text-xs font-medium">
+                                    <button
+                                        class="px-4 py-2 rounded-full border border-slate-200 text-slate-700 hover:border-slate-300 transition text-xs font-medium"
+                                    >
                                         LinkedIn
                                     </button>
-                                    <button class="px-4 py-2 rounded-full border border-slate-200 text-slate-700 hover:border-slate-300 transition text-xs font-medium">
+                                    <button
+                                        class="px-4 py-2 rounded-full border border-slate-200 text-slate-700 hover:border-slate-300 transition text-xs font-medium"
+                                    >
                                         Facebook
                                     </button>
-                                    <button class="px-4 py-2 rounded-full border border-slate-200 text-slate-700 hover:border-slate-300 transition text-xs font-medium">
+                                    <button
+                                        class="px-4 py-2 rounded-full border border-slate-200 text-slate-700 hover:border-slate-300 transition text-xs font-medium"
+                                    >
                                         Copy Link
                                     </button>
                                 </div>
                             </div>
-                            
+
                             <!-- Newsletter Signup -->
-                            <div class="rounded-2xl border border-slate-200 bg-white p-6">
-                                <h3 class="text-lg font-semibold text-slate-900 mb-2">
+                            <div
+                                class="rounded-2xl border border-slate-200 bg-white p-6"
+                            >
+                                <h3
+                                    class="text-lg font-semibold text-slate-900 mb-2"
+                                >
                                     Subscribe to Our Newsletter
                                 </h3>
-                                <p class="text-slate-600 mb-4 text-sm leading-relaxed">
-                                    Get the latest software reviews and insights delivered to your inbox.
+                                <p
+                                    class="text-slate-600 mb-4 text-sm leading-relaxed"
+                                >
+                                    Get the latest software reviews and insights
+                                    delivered to your inbox.
                                 </p>
 
                                 <form class="space-y-3">
@@ -148,7 +203,8 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
                                 </form>
 
                                 <p class="text-xs text-slate-500 mt-3">
-                                    We respect your privacy. Unsubscribe at any time.
+                                    We respect your privacy. Unsubscribe at any
+                                    time.
                                 </p>
                             </div>
                         </div>
@@ -162,12 +218,20 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
 
                         <!-- CTA Section -->
                         <section class="mt-8 sm:mt-12">
-                            <div class="rounded-2xl border border-slate-200 bg-[radial-gradient(600px_300px_at_10%_0%,#E7F0FF_0%,transparent_70%)] p-6 sm:p-8">
-                                <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mb-3 sm:mb-2 leading-tight sm:leading-normal">
+                            <div
+                                class="rounded-2xl border border-slate-200 bg-[radial-gradient(600px_300px_at_10%_0%,#E7F0FF_0%,transparent_70%)] p-6 sm:p-8"
+                            >
+                                <h3
+                                    class="text-xl sm:text-2xl font-semibold text-slate-900 mb-3 sm:mb-2 leading-tight sm:leading-normal"
+                                >
                                     Transform Your Customer Experience
                                 </h3>
-                                <p class="text-sm sm:text-base text-slate-600 mb-6 leading-relaxed">
-                                    Want to explore how unified CX and execution-led transformation can work for your organization?
+                                <p
+                                    class="text-sm sm:text-base text-slate-600 mb-6 leading-relaxed"
+                                >
+                                    Want to explore how unified CX and
+                                    execution-led transformation can work for
+                                    your organization?
                                 </p>
                                 <a
                                     href="https://calendly.com/gauravsawhney/zoftwarediscoverycall"
@@ -187,26 +251,28 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
         <Footer />
 
         <script>
-            const content = document.querySelector('.prose');
-            const tocTargets = document.querySelectorAll('[data-toc]');
+            const content = document.querySelector(".prose");
+            const tocTargets = document.querySelectorAll("[data-toc]");
 
             if (content && tocTargets.length > 0) {
-                const headings = Array.from(content.querySelectorAll('h2, h3, h4'));
+                const headings = Array.from(
+                    content.querySelectorAll("h2, h3, h4"),
+                );
                 const usedIds = new Set();
 
                 const slugify = (text) =>
                     text
                         .toLowerCase()
                         .trim()
-                        .replace(/[^\w\s-]/g, '')
-                        .replace(/\s+/g, '-')
-                        .replace(/-+/g, '-');
+                        .replace(/[^\w\s-]/g, "")
+                        .replace(/\s+/g, "-")
+                        .replace(/-+/g, "-");
 
                 let items = headings.map((heading) => {
                     let id = heading.id;
                     if (!id) {
-                        const base = slugify(heading.textContent || 'section');
-                        id = base || 'section';
+                        const base = slugify(heading.textContent || "section");
+                        id = base || "section";
                         let counter = 2;
                         while (usedIds.has(id) || document.getElementById(id)) {
                             id = `${base}-${counter++}`;
@@ -216,20 +282,25 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
                     usedIds.add(id);
                     return {
                         id,
-                        text: heading.textContent || '',
+                        text: heading.textContent || "",
                         level: heading.tagName.toLowerCase(),
                     };
                 });
 
                 if (items.length === 0) {
-                    const paragraphs = Array.from(content.querySelectorAll('p'));
+                    const paragraphs = Array.from(
+                        content.querySelectorAll("p"),
+                    );
                     const fallback = paragraphs
                         .map((paragraph) => {
-                            const strong = paragraph.querySelector('strong');
+                            const strong = paragraph.querySelector("strong");
                             if (!strong) return null;
-                            const text = (paragraph.textContent || '').trim();
-                            if (text.length < 8 || text.length > 120) return null;
-                            const strongText = (strong.textContent || '').trim();
+                            const text = (paragraph.textContent || "").trim();
+                            if (text.length < 8 || text.length > 120)
+                                return null;
+                            const strongText = (
+                                strong.textContent || ""
+                            ).trim();
                             if (!strongText) return null;
                             return { paragraph, text: strongText };
                         })
@@ -239,9 +310,12 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
                         let id = paragraph.id;
                         if (!id) {
                             const base = slugify(text);
-                            id = base || 'section';
+                            id = base || "section";
                             let counter = 2;
-                            while (usedIds.has(id) || document.getElementById(id)) {
+                            while (
+                                usedIds.has(id) ||
+                                document.getElementById(id)
+                            ) {
                                 id = `${base}-${counter++}`;
                             }
                             paragraph.id = id;
@@ -250,33 +324,33 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
                         return {
                             id,
                             text,
-                            level: 'p',
+                            level: "p",
                         };
                     });
                 }
 
                 const renderList = (target) => {
-                    target.innerHTML = '';
+                    target.innerHTML = "";
                     if (items.length === 0) {
-                        target.closest('aside')?.classList.add('hidden');
-                        const layout = target.closest('[data-toc-layout]');
+                        target.closest("aside")?.classList.add("hidden");
+                        const layout = target.closest("[data-toc-layout]");
                         if (layout) {
-                            layout.style.gridTemplateColumns = 'minmax(0, 1fr)';
+                            layout.style.gridTemplateColumns = "minmax(0, 1fr)";
                         }
                         return;
                     }
                     items.forEach((item) => {
-                        const link = document.createElement('a');
+                        const link = document.createElement("a");
                         link.href = `#${item.id}`;
                         link.textContent = item.text;
                         link.className =
-                            item.level === 'p'
-                                ? 'block border-l-2 border-slate-200 pl-4 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition leading-relaxed break-words'
-                                : item.level === 'h4'
-                                    ? 'block border-l-2 border-slate-200 pl-6 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition leading-relaxed break-words'
-                                    : item.level === 'h3'
-                                        ? 'block border-l-2 border-slate-200 pl-4 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition leading-relaxed break-words'
-                                        : 'block border-l-2 border-slate-200 pl-4 font-medium text-slate-700 hover:text-slate-900 hover:border-slate-400 transition leading-relaxed break-words';
+                            item.level === "p"
+                                ? "block border-l-2 border-slate-200 pl-4 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition leading-relaxed break-words"
+                                : item.level === "h4"
+                                  ? "block border-l-2 border-slate-200 pl-6 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition leading-relaxed break-words"
+                                  : item.level === "h3"
+                                    ? "block border-l-2 border-slate-200 pl-4 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition leading-relaxed break-words"
+                                    : "block border-l-2 border-slate-200 pl-4 font-medium text-slate-700 hover:text-slate-900 hover:border-slate-400 transition leading-relaxed break-words";
                         target.appendChild(link);
                     });
                 };
@@ -300,7 +374,7 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
             .prose h2 {
                 font-size: 1.875rem;
                 font-weight: 600;
-                color: #0F172A;
+                color: #0f172a;
                 margin-top: 2rem;
                 margin-bottom: 1rem;
                 line-height: 120%;
@@ -309,7 +383,7 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
             .prose h3 {
                 font-size: 1.5rem;
                 font-weight: 600;
-                color: #0F172A;
+                color: #0f172a;
                 margin-top: 1.5rem;
                 margin-bottom: 0.75rem;
                 line-height: 120%;
@@ -318,7 +392,7 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
             .prose h4 {
                 font-size: 1.25rem;
                 font-weight: 600;
-                color: #0F172A;
+                color: #0f172a;
                 margin-top: 1.5rem;
                 margin-bottom: 0.75rem;
             }
@@ -327,7 +401,7 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
             .prose h6 {
                 font-size: 1rem;
                 font-weight: 600;
-                color: #0F172A;
+                color: #0f172a;
                 margin-top: 1rem;
                 margin-bottom: 0.5rem;
             }
@@ -344,40 +418,40 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
             }
 
             .prose a {
-                color: #1447E6;
+                color: #1447e6;
                 text-decoration: underline;
             }
 
             .prose a:hover {
-                color: #007BEF;
+                color: #007bef;
             }
 
             .prose strong,
             .prose b {
                 font-weight: 600;
-                color: #0F172A;
+                color: #0f172a;
             }
 
             .prose blockquote {
-                border-left: 3px solid #1447E6;
-                background-color: #F1F5F9;
+                border-left: 3px solid #1447e6;
+                background-color: #f1f5f9;
                 padding: 1.5rem;
                 margin: 1.5rem 0;
                 border-radius: 8px;
                 font-style: italic;
-                color: #0F172A;
+                color: #0f172a;
             }
 
             .prose code {
-                background-color: #F1F5F9;
+                background-color: #f1f5f9;
                 padding: 2px 6px;
                 border-radius: 4px;
                 font-size: 0.875rem;
-                color: #0F172A;
+                color: #0f172a;
             }
 
             .prose pre {
-                background-color: #0F172A;
+                background-color: #0f172a;
                 padding: 1.5rem;
                 border-radius: 8px;
                 overflow-x: auto;
@@ -404,19 +478,19 @@ const coverImageUrl = coverImage ? getSanityImageUrl(coverImage, { width: 1200, 
             .prose th,
             .prose td {
                 padding: 0.75rem;
-                border: 1px solid #E2E8F0;
+                border: 1px solid #e2e8f0;
                 text-align: left;
             }
 
             .prose th {
-                background-color: #F1F5F9;
+                background-color: #f1f5f9;
                 font-weight: 600;
-                color: #0F172A;
+                color: #0f172a;
             }
 
             .prose hr {
                 border: none;
-                border-top: 1px solid #E2E8F0;
+                border-top: 1px solid #e2e8f0;
                 margin: 2rem 0;
             }
         </style>

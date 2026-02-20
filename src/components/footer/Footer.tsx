@@ -42,6 +42,7 @@ function Footer() {
                     <a
                       href={item.link ?? "#"}
                       className={styles.sectionItemLink}
+                      target={"target" in item && item.target === "_blank" ? "_blank" : "_self"}
                     >
                       {item.title}
                     </a>
@@ -82,7 +83,7 @@ function Footer() {
               width={24}
               height={24}
               alt="Zoftware Logo"
-              src="https://zoftware-logo.s3.ap-south-1.amazonaws.com/zoftware-mini-logo.svg"
+              src="/zoftware-mini-logo.svg"
               style={{ borderRadius: 0 }}
             />
             <p className={styles.copyright}>{t.rights}</p>

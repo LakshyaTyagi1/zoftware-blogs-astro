@@ -1,5 +1,8 @@
 ---
-import Footer from './footer/Footer.tsx';
+import FooterReact from './footer/Footer.tsx';
 ---
 
-<Footer client:load />
+<div class="w-full mt-auto">
+  <FooterReact client:only="react" />
+</div>
+

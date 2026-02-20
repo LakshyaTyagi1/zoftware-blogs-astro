@@ -42,18 +42,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 0.5rem;
 }
 .mainDropdown > li.activeCat {
-  margin: 0;
-  background-color: #f7f6ff;
-  color: #654cff;
+  background-color: #EFF6FF;
+  color: #1447E6;
 }
 .mainDropdown > li:hover {
-  background-color: #f7f6ff;
-  color: #654cff;
+  background-color: #EFF6FF;
+  color: #1447E6;
 }
 .sideDropdown li:hover > a {
-  color: #654cff;
+  color: #1447E6;
 }
 .mainDropdown > li.activeCat > .arrow_right_blue,
 .mainDropdown > li:hover > .arrow_right_blue {
@@ -62,7 +62,7 @@
 
 .main_all_cat {
   padding: 0.5rem 1rem;
-  color: #2c4e9b;
+  color: #1447E6;
   font-size: 14px;
   font-weight: 600;
   text-decoration: underline;
@@ -70,7 +70,7 @@
 
 .sub_all_cat {
   padding: 0.5rem 0;
-  color: #2c4e9b;
+  color: #1447E6;
   font-size: 14px;
   font-weight: 600;
   text-decoration: underline;
@@ -115,7 +115,7 @@
 
 .product_card {
   padding: 1rem;
-  background-color: #fff8f8;
+  background-color: #EFF6FF;
   border-radius: 0.75rem;
   text-align: center;
   display: flex;
@@ -126,7 +126,7 @@
 .product_card > p {
   margin-top: 1rem;
   margin-bottom: 1rem ;
-  color: #051d53;
+  color: #0a0a0a;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.35;
@@ -181,5 +181,5 @@
 }
 
 .sideDropdown > ul > li > a:hover {
-  color: #654cff;
+  color: #1447E6;
 }

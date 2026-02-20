@@ -90,14 +90,20 @@ export default function CategoriesDropdown({
                 <a
                   href={`https://zoftwarehub.com/category/p/${prodCat.weburl}`}
                   onClick={handleLinkClick}
+                  style={{ flex: 1, display: "block" }}
                 >
                   {prodCat.name}
                 </a>
-                {currParentCat?._id === prodCat._id && (
-                  <span style={{ transform: "rotate(-90deg)", display: "inline-block" }}>
-                    <IoIosArrowDown />
-                  </span>
-                )}
+                <span 
+                  style={{ 
+                    transform: "rotate(-90deg)", 
+                    display: "inline-block",
+                    opacity: currParentCat?._id === prodCat._id ? 1 : 0,
+                    transition: "opacity 0.2s ease"
+                  }}
+                >
+                  <IoIosArrowDown />
+                </span>
               </li>
             ))
           )}
@@ -117,7 +123,7 @@ export default function CategoriesDropdown({
           <a
             href={`https://zoftwarehub.com/category/p/${currParentCat?.weburl}`}
             className="text-lg font-semibold"
-            style={{ color: "#051d53" }}
+            style={{ color: "#101828" }}
             onClick={handleLinkClick}
           >
             <p>{currParentCat?.name || "Select a category"}</p>
@@ -155,7 +161,7 @@ export default function CategoriesDropdown({
       {/* Right Column - Featured Products */}
       <div className={styles.bannerContainer}>
         <img
-          src="https://zoftware-logo.s3.ap-south-1.amazonaws.com/logo.svg"
+              src="/logo.svg"
           alt="zoftware_logo"
           height={20}
           width={100}
@@ -209,7 +215,7 @@ export default function CategoriesDropdown({
                       height={24}
                     />
                     <div>
-                      <span style={{ color: "#051d53", fontWeight: 500 }}>
+                      <span style={{ color: "#101828", fontWeight: 500 }}>
                         {product.ratings.overall_rating.toFixed(1)}
                       </span>{" "}
                       <span style={{ fontSize: "12px" }}>out of 5</span>

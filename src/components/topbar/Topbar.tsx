@@ -4,6 +4,16 @@ import { TopbarProvider } from "./TopbarContext.tsx";
 import CategoriesDropdown from "./categories-dropdown/CategoriesDropdown.tsx";
 import IoIosArrowDown from "./IoIosArrowDown.tsx";
 
+const NAV_LINKS = [
+  { href: "https://zoftwarehub.com", label: "Home", mobileOnly: true },
+  { href: "https://zoftwarehub.com/categories", label: "Software Categories", isDropdownTrigger: true },
+  { href: "https://zoftwarehub.com/zoftbot", label: "Chat with Zain" },
+  { href: "/", label: "Blogs", active: true },
+  { href: "https://zoftwarehub.com/vendors", label: "Vendors" },
+  { href: "https://zoftwarehub.com/system-integrators", label: "System Integrators" },
+  { href: "https://rfpbuilder.zoftwarehub.com/", label: "RFP Builder" },
+];
+
 function TopbarContent() {
   const [catDropdown, setCatDropdown] = useState(false);
   const [isSidenavOpen, setIsSidenavOpen] = useState(false);
@@ -38,7 +48,7 @@ function TopbarContent() {
         <div className={styles.header}>
           {/* Logo */}
           <a
-            href="/"
+            href="https://zoftwarehub.com"
             style={{ 
               marginLeft: "20px", 
               marginRight: "20px", 
@@ -50,7 +60,7 @@ function TopbarContent() {
               height={23}
               width={118}
               alt="zoftware_logo"
-              src="https://zoftware-logo.s3.ap-south-1.amazonaws.com/logo.svg"
+              src="/logo.svg"
               style={{ width: "118px", height: "auto", borderRadius: 0 }}
             />
           </a>
@@ -66,123 +76,86 @@ function TopbarContent() {
               paddingRight: "16px",
             }}
           >
-            {/* Categories Dropdown */}
-            {catDropdown && (
-              <CategoriesDropdown
-                hideCatDropdown={hideCatDropdown}
-                toggleCatDropdown={toggleCatDropdown}
-              />
-            )}
+            {NAV_LINKS.filter(link => !link.mobileOnly).map((link) => {
+              if (link.isDropdownTrigger) {
+                return (
+                  <React.Fragment key={link.label}>
+                    {/* Categories Dropdown */}
+                    {catDropdown && (
+                      <CategoriesDropdown
+                        hideCatDropdown={hideCatDropdown}
+                        toggleCatDropdown={toggleCatDropdown}
+                      />
+                    )}
 
-            {/* Categories Button */}
-            <div
-              ref={dropdownBtnRef}
-              id="cat-dropdown-btn"
-              onClick={handleDropdownBtnClick}
-              className={styles.dropdownParent}
-              style={{ flexShrink: 0, cursor: "pointer" }}
-            >
-              <p
-                style={{
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  whiteSpace: "nowrap",
-                  color: catDropdown ? "#2c4e9b" : "#575757",
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  transition: "color 0.3s ease",
-                  margin: 0,
-                }}
-              >
-                Software Categories
-                <span
+                    {/* Categories Button */}
+                    <div
+                      ref={dropdownBtnRef}
+                      id="cat-dropdown-btn"
+                      onClick={handleDropdownBtnClick}
+                      className={styles.dropdownParent}
+                      style={{ flexShrink: 0, cursor: "pointer" }}
+                    >
+                      <p
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          whiteSpace: "nowrap",
+                          color: catDropdown ? "#2c4e9b" : "#575757",
+                          display: "flex",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          transition: "color 0.3s ease",
+                          margin: 0,
+                        }}
+                      >
+                        {link.label}
+                        <span
+                          style={{
+                            transition: "transform 0.3s ease",
+                            transform: catDropdown ? "rotate(180deg)" : "rotate(0deg)",
+                            display: "inline-block",
+                          }}
+                        >
+                          <IoIosArrowDown />
+                        </span>
+                      </p>
+                    </div>
+                  </React.Fragment>
+                );
+              }
+
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
                   style={{
-                    transition: "transform 0.3s ease",
-                    transform: catDropdown ? "rotate(180deg)" : "rotate(0deg)",
-                    display: "inline-block",
+                    fontSize: "14px",
+                    fontWeight: link.active ? 600 : 500,
+                    whiteSpace: "nowrap",
+                    color: link.active ? "#2c4e9b" : "#575757",
+                    textDecoration: "none",
+                    transition: "color 0.3s ease",
+                  }}
+                  onMouseOver={(e) => {
+                    if (!link.active) e.currentTarget.style.color = "#2c4e9b";
+                  }}
+                  onMouseOut={(e) => {
+                    if (!link.active) e.currentTarget.style.color = "#575757";
                   }}
                 >
-                  <IoIosArrowDown />
-                </span>
-              </p>
-            </div>
-
-            {/* Chat with Zain */}
-            <a
-              href="https://zoftwarehub.com/zoftbot"
-              style={{
-                fontSize: "14px",
-                fontWeight: 500,
-                whiteSpace: "nowrap",
-                color: "#575757",
-                textDecoration: "none",
-                transition: "color 0.3s ease",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.color = "#2c4e9b")}
-              onMouseOut={(e) => (e.currentTarget.style.color = "#575757")}
-            >
-              Chat with Zain
-            </a>
-
-            {/* Blogs */}
-            <a
-              href="/blog"
-              style={{
-                fontSize: "14px",
-                fontWeight: 500,
-                whiteSpace: "nowrap",
-                color: "#575757",
-                textDecoration: "none",
-                transition: "color 0.3s ease",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.color = "#2c4e9b")}
-              onMouseOut={(e) => (e.currentTarget.style.color = "#575757")}
-            >
-              Blogs
-            </a>
-
-            {/* For Vendors */}
-            <a
-              href="https://zoftwarehub.com/vendors"
-              style={{
-                fontSize: "14px",
-                fontWeight: 500,
-                whiteSpace: "nowrap",
-                color: "#575757",
-                textDecoration: "none",
-                transition: "color 0.3s ease",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.color = "#2c4e9b")}
-              onMouseOut={(e) => (e.currentTarget.style.color = "#575757")}
-            >
-              For Vendors
-            </a>
-
-            {/* For Partners */}
-            <a
-              href="#"
-              style={{
-                fontSize: "14px",
-                fontWeight: 500,
-                whiteSpace: "nowrap",
-                color: "#575757",
-                textDecoration: "none",
-                transition: "color 0.3s ease",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.color = "#2c4e9b")}
-              onMouseOut={(e) => (e.currentTarget.style.color = "#575757")}
-            >
-              For Partners
-            </a>
+                  {link.label}
+                </a>
+              );
+            })}
           </div>
         </div>
 
         {/* Mobile Header */}
-        <div className={styles.mini_header}>
-          <a href="/" style={{ marginRight: "auto", flexShrink: 0 }}>
+        <div className={styles.mini_header} style={{ display: isSidenavOpen ? "none" : "" }}>
+          <a href="https://zoftwarehub.com" style={{ marginRight: "auto", flexShrink: 0, display: "flex" }}>
             <img
-              src="https://zoftware-logo.s3.ap-south-1.amazonaws.com/logo.svg"
+              src="/logo.svg"
               alt="zoftware_logo"
               height={25}
               width={130}
@@ -199,13 +172,16 @@ function TopbarContent() {
               padding: 0,
               cursor: "pointer",
               flexShrink: 0,
+              display: "block",
+              position: "relative"
             }}
           >
             <img
-              src="https://zoftware-logo.s3.ap-south-1.amazonaws.com/hamburger-menu.svg"
+              src="/hamburger-menu.svg"
               alt="hamburger menu"
               height={16}
               width={24}
+              style={{ display: "block", borderRadius: 0 }}
             />
           </button>
         </div>
@@ -220,84 +196,43 @@ function TopbarContent() {
           }}
           style={{ display: "flex" }}
         >
-          <div
-            style={{
-              width: "320px",
-              maxWidth: "85vw",
-              background: "white",
-              height: "100vh",
-              padding: "24px",
-              overflowY: "auto",
-            }}
-          >
+          <div className={styles.sidenav}>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 marginBottom: "32px",
-                paddingBottom: "16px",
-                borderBottom: "1px solid #e6e6e6",
+                gap: "1rem"
               }}
             >
               <img
-                src="https://zoftware-logo.s3.ap-south-1.amazonaws.com/logo.svg"
+                src="/logo.svg"
                 alt="zoftware_logo"
                 height={25}
                 width={130}
                 style={{ width: "120px", height: "auto", borderRadius: 0 }}
               />
-              <button
-                onClick={closeSidenav}
-                aria-label="Close menu"
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: "8px",
-                  color: "#101828",
-                }}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M18 6L6 18M6 6L18 18"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+              <button onClick={closeSidenav} className={styles.hide_sidenav_btn}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2c4e9b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-x" style={{ display: "block" }}>
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M18 6l-12 12" />
+                  <path d="M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            <nav style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {[
-                { href: "/", label: "Home" },
-                { href: "/blog", label: "Blogs" },
-                { href: "https://zoftwarehub.com/zoftbot", label: "Chat with Zain" },
-                { href: "https://zoftwarehub.com/vendors", label: "For Vendors" },
-                { href: "#", label: "For Partners" },
-              ].map((link) => (
+            <nav style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+              {NAV_LINKS.map((link, index) => (
                 <a
                   key={link.label}
                   href={link.href}
                   onClick={closeSidenav}
+                  className={`${styles.mobNavLink}`}
                   style={{
-                    padding: "16px",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    color: "#575757",
-                    textDecoration: "none",
-                    borderRadius: "8px",
-                    transition: "all 0.3s ease",
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "rgba(44, 78, 155, 0.05)";
-                    e.currentTarget.style.color = "#2c4e9b";
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                    e.currentTarget.style.color = "#575757";
+                    color: link.active ? "#2c4e9b" : "#575757",
+                    borderTop: index === 0 ? "none" : "1px solid #e8ebeb",
+                    textDecoration: "none"
                   }}
                 >
                   {link.label}

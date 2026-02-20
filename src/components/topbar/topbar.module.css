@@ -167,6 +167,41 @@
   display: none;
 }
 
+.sidenav {
+  width: 500px;
+  overflow-y: auto;
+  padding: 2.5rem 2rem;
+  border-radius: 20px 0px 0px 20px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  box-shadow: 0px 7px 13px 0px rgba(35, 0, 136, 0.05);
+  backdrop-filter: blur(32.79999923706055px);
+}
+
+.hide_sidenav_btn {
+  border-radius: 70px;
+  border: 1px solid #eae7ff;
+  background: #fff;
+  box-shadow: 0px 3px 12px 0px rgba(145, 138, 229, 0.1);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.mobNavLink {
+  padding-block: 1rem;
+  color: #575757;
+  border-top: 1px solid #e8ebeb;
+  font-size: 18px;
+  font-weight: 600;
+  display: block;
+}
+
 .compare_number {
   position: absolute;
   top: 0.25rem;
@@ -226,7 +261,7 @@
     justify-content: flex-end;
     backdrop-filter: blur(33px);
     background: rgba(255, 255, 255, 0.75);
-    box-shadow: 0px 7px 13px 0px rgba(35, 0, 136, 0.1);
+    border-bottom: 1px solid #e6e6e6;
   }
 
   .sidenav_container {
@@ -260,6 +295,11 @@
 @media only screen and (max-width: 499px) {
   .header_parent {
     margin-bottom: 1rem;
+  }
+  .sidenav {
+    width: 100vw;
+    padding: 1rem;
+    border-radius: 0;
   }
 }
 

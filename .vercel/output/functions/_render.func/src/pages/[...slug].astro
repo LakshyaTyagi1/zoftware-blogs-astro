@@ -1,0 +1,33 @@
+---
+// Server-render blog posts so they always show fresh content from MongoDB
+export const prerender = false;
+
+import { toHTML } from '@portabletext/to-html';
+import BlogPost from '../layouts/BlogPost.astro';
+import { getPostBySlug, plainTextFromBlocks } from '../lib/mongodb';
+
+const { slug } = Astro.params;
+if (!slug) {
+	throw new Error('Missing post slug.');
+}
+
+const post = await getPostBySlug(slug);
+if (!post) {
+	throw new Error(`Post not found for slug: ${slug}`);
+}
+
+const description = post.description || plainTextFromBlocks(post.body, 200);
+const html = toHTML(post.body ?? []);
+---
+
+<BlogPost
+	title={post.title}
+	description={description}
+	publishedAt={post.publishedAt}
+	updatedAt={post.updatedAt}
+	coverImage={post.coverImage}
+	categories={post.categories}
+	tags={post.tags}
+>
+	<Fragment set:html={html} />
+</BlogPost>

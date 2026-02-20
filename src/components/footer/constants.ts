@@ -6,29 +6,28 @@ export const footerTranslations = {
       {
         heading: "For Buyers",
         items: [
-          { title: "How it works", link: "#" },
-          { title: "Categories", link: "/categories" },
-          { title: "Consultation", link: "#" },
-          { title: "Support", link: "#" },
+          { title: "Categories", link: "https://zoftwarehub.com/categories" },
+          {
+            title: "Consultation",
+            link: "https://calendly.com/gauravsawhney/zoftwarediscoverycall",
+            target: "_blank",
+          },
+          { title: "Support", link: "https://zoftwarehub.com/voice-bot" },
         ],
       },
       {
         heading: "For Vendors",
         items: [
-          { title: "List your product", link: "#" },
-          { title: "Partner program", link: "#" },
-          { title: "Guidelines", link: "#" },
+          { title: "List your product", link: "https://zoftwarehub.com/vendors", target: "_blank" },
         ],
       },
       {
         heading: "Company",
         items: [
-          { title: "About", link: "/about-us" },
-          { title: "Blogs", link: "/blog" },
-          { title: "Careers", link: "#" },
-          { title: "Contact", link: "#" },
-          { title: "Privacy Policy", link: "/privacy-policy" },
-          { title: "Terms", link: "/terms-and-conditions" },
+          { title: "About", link: "https://zoftwarehub.com/about-us" },
+          { title: "Blogs", link: "/" },
+          { title: "Privacy Policy", link: "https://zoftwarehub.com/privacy-policy" },
+          { title: "Terms", link: "https://zoftwarehub.com/terms-and-conditions" },
         ],
       },
     ],
@@ -54,29 +53,28 @@ export const footerTranslations = {
       {
         heading: "للمشترين",
         items: [
-          { title: "كيف يعمل", link: "#" },
-          { title: "الفئات", link: "#" },
-          { title: "استشارة", link: "#" },
-          { title: "الدعم", link: "#" },
+          { title: "الفئات", link: "https://zoftwarehub.com/categories" },
+          {
+            title: "استشارة",
+            link: "https://calendly.com/gauravsawhney/zoftwarediscoverycall",
+            target: "_blank",
+          },
+          { title: "الدعم", link: "https://zoftwarehub.com/voice-bot" },
         ],
       },
       {
         heading: "للبائعين",
         items: [
-          { title: "أدرج منتجك", link: "#" },
-          { title: "برنامج الشركاء", link: "#" },
-          { title: "الإرشادات", link: "#" },
+          { title: "أدرج منتجك", link: "https://zoftwarehub.com/vendors", target: "_blank" },
         ],
       },
       {
         heading: "الشركة",
         items: [
-          { title: "نبذة عنا", link: "#" },
-          { title: "المدونات", link: "/blog" },
-          { title: "الوظائف", link: "#" },
-          { title: "اتصل بنا", link: "#" },
-          { title: "سياسة الخصوصية", link: "#" },
-          { title: "الشروط", link: "#" },
+          { title: "نبذة عنا", link: "https://zoftwarehub.com/about-us" },
+          { title: "المدونات", link: "/" },
+          { title: "سياسة الخصوصية", link: "https://zoftwarehub.com/privacy-policy" },
+          { title: "الشروط", link: "https://zoftwarehub.com/terms-and-conditions" },
         ],
       },
     ],
