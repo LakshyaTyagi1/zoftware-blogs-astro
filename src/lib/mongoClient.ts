@@ -35,3 +35,8 @@ export async function tagsCollection(): Promise<Collection> {
   const db = await getDb();
   return db.collection("tags");
 }
+
+export async function newsletterSubscribersCollection(): Promise<Collection> {
+  const db = await getDb();
+  return db.collection("newsletter_subscribers");
+}

@@ -106,8 +106,35 @@
   background-color: #0d3bb8;
 }
 
+.newsletterButton:disabled {
+  cursor: not-allowed;
+  background-color: #6A7282;
+}
+
 .newsletterButton:active {
   background-color: #0a2f91;
+}
+
+.newsletterConfirmation {
+  color: #4A5565;
+  font-size: 0.875rem;
+  line-height: 1.41875rem;
+  margin: 0;
+  font-family: var(--font-poppins, 'Poppins', sans-serif);
+}
+
+.newsletterConfirmation strong {
+  color: #101828;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.newsletterError {
+  color: #dc2626;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  margin: 0.5rem 0 0;
+  font-family: var(--font-poppins, 'Poppins', sans-serif);
 }
 
 .copyright {

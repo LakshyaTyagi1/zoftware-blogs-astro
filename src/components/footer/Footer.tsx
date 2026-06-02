@@ -5,12 +5,45 @@ import { footerTranslations } from "./constants";
 function Footer() {
   const t = footerTranslations.en;
   const [email, setEmail] = useState("");
+  const [confirmationEmail, setConfirmationEmail] = useState("");
+  const [error, setError] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
-  function saveRequest(e: React.FormEvent<HTMLFormElement>) {
+  async function saveRequest(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: Implement email subscription
-    alert(t.toastSuccess);
-    setEmail("");
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedEmail) {
+      setError(t.toastWarning);
+      return;
+    }
+
+    setError("");
+    setIsSaving(true);
+
+    try {
+      const response = await fetch("/api/newsletter.json", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          email: normalizedEmail,
+          pageTitle: document.title,
+          pageUrl: window.location.href,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(t.toastFail);
+      }
+
+      setEmail("");
+      setConfirmationEmail(normalizedEmail);
+      window.setTimeout(() => setConfirmationEmail(""), 3000);
+    } catch {
+      setError(t.toastFail);
+    } finally {
+      setIsSaving(false);
+    }
   }
 
   function changeLanguage(lang: string) {
@@ -58,23 +91,41 @@ function Footer() {
             <p className={styles.newsletterDescription}>
               {t.newsletter.description}
             </p>
-            <form
-              onSubmit={(e) => saveRequest(e)}
-              className={styles.newsletterForm}
-              style={{ height: "2.25rem" }}
-            >
-              <input
-                required
-                type="email"
-                value={email}
-                placeholder={t.newsletter.placeholder}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.newsletterInput}
-              />
-              <button className={styles.newsletterButton}>
-                {t.newsletter.cta}
-              </button>
-            </form>
+            {confirmationEmail ? (
+              <p className={styles.newsletterConfirmation} aria-live="polite">
+                Thanks for signing up. You will receive newsletters at{" "}
+                <strong>{confirmationEmail}</strong>.
+              </p>
+            ) : (
+              <>
+                <form
+                  onSubmit={(e) => saveRequest(e)}
+                  className={styles.newsletterForm}
+                  style={{ height: "2.25rem" }}
+                >
+                  <input
+                    required
+                    type="email"
+                    value={email}
+                    placeholder={t.newsletter.placeholder}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={styles.newsletterInput}
+                    disabled={isSaving}
+                  />
+                  <button
+                    className={styles.newsletterButton}
+                    disabled={isSaving}
+                  >
+                    {isSaving ? "Subscribing..." : t.newsletter.cta}
+                  </button>
+                </form>
+                {error ? (
+                  <p className={styles.newsletterError} aria-live="polite">
+                    {error}
+                  </p>
+                ) : null}
+              </>
+            )}
           </div>
         </div>
         <div className={styles.bottomBar}>
